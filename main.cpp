@@ -18,7 +18,11 @@ using std::endl;
 using std::string;
 using std::left;
 
-
+/**
+ * Validate if user entered an aceeptable number
+ * @param num integer: the number to be validated
+ * @return boolean: true if the number is valid false otherwise
+*/
 bool validateUserInput(int num){
     if (num < 1 || num >5){
         return false;
@@ -29,6 +33,9 @@ bool validateUserInput(int num){
 }
 
 
+/**
+ * Print the banner message when program starts
+*/
 void printBannerMessage(){
     // Print out banner message
     cout << endl;
@@ -56,11 +63,22 @@ void printBannerMessage(){
 }
 
 
+/**
+ * Capture user input when asked about selecting the problem type and the level
+ * of difficulty
+ * @param inputType integer
+ *     1 -> Select problem type
+ *     2 -> Select difficulty level
+ * @return userInput integer: a validated userInput
+*/
 int captureUserInput(int inputType){
 
+    // initialize isValidUserInput and set it to false
+    // initialize userInput integer
     bool isValidUserInput = false;
     int userInput;
 
+    // Ask user to enter a number until the input is valid.
     while (! isValidUserInput){
         switch(inputType){
             case 1:
@@ -71,9 +89,12 @@ int captureUserInput(int inputType){
                 cout << "Please select the level of difficulty: ";
                 break;
         }
+
+        // Capture user input and validate the number
         cin >> userInput;
         isValidUserInput = validateUserInput(userInput);
 
+        // If the input is not a valid number, ask user to enter a new number
         if (!isValidUserInput){
             cout << "Unsupported option. Please enter a new number" << endl;
         }
@@ -84,11 +105,18 @@ int captureUserInput(int inputType){
 }
 
 
+/**
+ * Display a user's result after they answering all 10 questions
+ * @param correctAnswers integer: number of correct answers
+ * @param wrongAnswers integer: number of wrong answers
+ * @return userInput integer: a validated userInput
+*/
 void printResults(int correctAnswers, int wrongAnswers){
     cout << "Result:" << endl;
     cout << "\tCorrect Answers: " << correctAnswers <<endl;
     cout << "\tWrong Answers: " << wrongAnswers << endl;
 
+    // Monitor student performance
     if (correctAnswers < 8){
         cout << "Please ask yout teacher for extra help.\n\n" << endl;
     }
@@ -102,39 +130,64 @@ int main(){
 
     printBannerMessage();
 
+    // Initialize exitCode. This integer will be used to determine if users
+    // want to continue or exits the program.
     int exitCode = 0;
     cout << "Enter 0 to exit the program or 1 to start a new session: ";
     cin >> exitCode;
 
+    // If a user enters 0, exit the program. 
+    // If a user enters 1, continue/reset.
     while (exitCode == 1){
+
+        // Initialize integers used to keep track of a user'e performance
         int totalQuestions = 10;
         int correctAnswers = 0;
         int wrongAnswers = 0;
 
+        // Capture problemType and difficultyLevel from user
         int problemType = captureUserInput(1);
         int difficultyLevel = captureUserInput(2);
         cout << endl;
 
+        // Construct CAI class
         CAI cai(problemType, difficultyLevel);
 
+        // If a user hasnt answered 10 questions, keep asking question
+        // otherwise, exit the while loop and provide an opportunity for user
+        // to either exit or reset
         while ((correctAnswers + wrongAnswers) < totalQuestions){
+
+            // Get questionNumber which is used by user to keep track of progress
             int questionNumber = correctAnswers + wrongAnswers + 1;
+
+            // Ask a user a question and assign the correct answer to integer answer
             int answer = cai.generateQuestion(questionNumber);
+
+            // Capture user's answer
             int userAnswer;
             cout << "Please enter your answer here: ";
             cin >> userAnswer;
 
+            // If the user answered correctly, display a positive response and
+            // and increment correctAnswer by 1
             if (userAnswer == answer){
                 cai.displayPositiveResponse();
                 correctAnswers = correctAnswers + 1;
             }
+
+            // If the user answered incorrectly, display a negative response and
+            // and increment wrongAnswers by 1
             else{
                 cai.displayNegativeResponse();
                 wrongAnswers = wrongAnswers + 1;
             }
         }
+
+        // Once the user answered all 10 questions, display the result
         printResults(correctAnswers, wrongAnswers);
 
+        // Ask the user whether they want to exit the program or start a new session
         cout << "Enter 0 to exit the program or 1 to start a new session: ";
         cin >> exitCode;
     }
