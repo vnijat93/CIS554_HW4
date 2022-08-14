@@ -16,6 +16,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::left;
 
 
 bool validateUserInput(int num){
@@ -31,17 +32,25 @@ bool validateUserInput(int num){
 void printBannerMessage(){
     // Print out banner message
     cout << endl;
+    cout << left;
     cout << "Welcome to the Computer-Assisted Instruction Program" << endl;
     cout << "********************************************************" << endl;
     cout << "This program helps you to learn arithemetic operations.\n"
             "Before we start, you need select which type of arithmetic operation "
-            "you would like to study and the level of difficulty.\nPlease use the"
-            " following table as a reference:\n Options for arithemetic operation: "
-            "\n 1: Addition \n 2: Subtraction \n 3: Multiplication \n 4: Division"
-            "\n 5: Random Mixture of Above Operations.\n \n Difficulty Level: \n"
-            "1: Use single-digit only \n2: Numbers as large as two digits \n"
-            "3: Numbers as large as three digits \n4: Numbers as large as four "
-            "digits \n5: Numbers as large as five digits" << endl;
+            "you would like to study and the level of difficulty.\n";
+    cout << "Please use the following tables as a reference:\n\n";
+    cout << "Options for arithemetic operation:\n"
+            "\t1: Addition \n"
+            "\t2: Subtraction \n"
+            "\t3: Multiplication \n"
+            "\t4: Division\n"
+            "\t5: Random Mixture of Above Operations.\n\n"
+            "Difficulty Level: \n"
+            "\t1: Use single-digit only \n"
+            "\t2: Numbers as large as two digits \n"
+            "\t3: Numbers as large as three digits \n"
+            "\t4: Numbers as large as four digits \n"
+            "\t5: Numbers as large as five digits" << endl;
     cout << "********************************************************" << endl;
     cout << endl;
 }
@@ -75,26 +84,59 @@ int captureUserInput(int inputType){
 }
 
 
+void printResults(int correctAnswers, int wrongAnswers){
+    cout << "Result:" << endl;
+    cout << "\tCorrect Answers: " << correctAnswers <<endl;
+    cout << "\tWrong Answers: " << wrongAnswers << endl;
+
+    if (correctAnswers < 8){
+        cout << "Please ask yout teacher for extra help.\n\n" << endl;
+    }
+    else{
+        cout << "Congratulations, you are ready to go to the next level!\n\n" << endl;
+    }
+}
+
+
 int main(){
 
     printBannerMessage();
 
-    int problemType = captureUserInput(1);
-    int difficultyLevel = captureUserInput(2);
+    int exitCode = 0;
+    cout << "Enter 0 to exit the program or 1 to start a new session: ";
+    cin >> exitCode;
 
-    CAI cai(problemType, difficultyLevel);
-    
-    int answer = cai.generateQuestion();
-    int userAnswer;
-    cin >> userAnswer;
+    while (exitCode == 1){
+        int totalQuestions = 10;
+        int correctAnswers = 0;
+        int wrongAnswers = 0;
 
-    if (userAnswer == answer){
-        cai.displayPositiveResponse();
-        cout << "positive" << endl;
-    }
-    else{
-        cai.displayNegativeResponse();
-        cout << "negative" << endl;
+        int problemType = captureUserInput(1);
+        int difficultyLevel = captureUserInput(2);
+        cout << endl;
+
+        CAI cai(problemType, difficultyLevel);
+
+        while ((correctAnswers + wrongAnswers) < totalQuestions){
+            int questionNumber = correctAnswers + wrongAnswers + 1;
+            int answer = cai.generateQuestion(questionNumber);
+            int userAnswer;
+            cout << "Please enter your answer here: ";
+            cin >> userAnswer;
+
+            if (userAnswer == answer){
+                cai.displayPositiveResponse();
+                correctAnswers = correctAnswers + 1;
+            }
+            else{
+                cai.displayNegativeResponse();
+                wrongAnswers = wrongAnswers + 1;
+            }
+        }
+        printResults(correctAnswers, wrongAnswers);
+
+        cout << "Enter 0 to exit the program or 1 to start a new session: ";
+        cin >> exitCode;
     }
 
     return 0;

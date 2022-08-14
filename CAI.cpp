@@ -89,7 +89,7 @@ int CAI::generateRandomNumberForQuestions(int offset) const{
 }
 
 
-int CAI::generateQuestion() const{
+int CAI::generateQuestion(int questionNumber) const{
 
     int rand1 = generateRandomNumberForQuestions();
     int rand2 = generateRandomNumberForQuestions();
@@ -103,6 +103,7 @@ int CAI::generateQuestion() const{
     else{
         probTy = problemType;
     }
+    cout << "Question Number " << questionNumber << " : ";
 
     switch(probTy){
         case 1:
@@ -134,20 +135,19 @@ int CAI::generateQuestion() const{
 void CAI::displayPositiveResponse(){
 
     int response = generateRandomNumber(0, 3);
-    // cout << "response: " << response << endl;
 
     switch(response){
         case 0:
-            cout << "Very good!";
+            cout << "Very good!\n" << endl;
             break;
         case 1:
-            cout << "Excellent!";
+            cout << "Excellent!\n" << endl;
             break;
         case 2:
-            cout << "Nice work!";
+            cout << "Nice work!\n" << endl;
             break;
         case 3:
-            cout << "Keep up the good work!";
+            cout << "Keep up the good work!\n" << endl;
             break;
     }
 }
@@ -156,20 +156,19 @@ void CAI::displayPositiveResponse(){
 void CAI::displayNegativeResponse(){
 
     int response = generateRandomNumber(0, 3);
-    // cout << "response: " << response << endl;
 
     switch(response){
         case 0:
-            cout << "You got it wrong. You will get it right next time";
+            cout << "You got it wrong. You will get it right next time\n" << endl;
             break;
         case 1:
-            cout << "That was a wrong answer.";
+            cout << "That was a wrong answer.\n" << endl;
             break;
         case 2:
-            cout << "Wrong answer. But don't give up";
+            cout << "Wrong answer. But don't give up\n" << endl;
             break;
         case 3:
-            cout << "No. That's not the answer";
+            cout << "No. That's not the answer\n" << endl;
             break;
     }
 }

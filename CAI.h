@@ -53,7 +53,7 @@ class CAI{
 
         int generateRandomNumber(int lowerLimit, int upperLimit) const;
         int generateRandomNumberForQuestions(int offset=0) const;
-        int generateQuestion() const;
+        int generateQuestion(int questionNumber) const;
 
         void displayPositiveResponse();
         void displayNegativeResponse();
