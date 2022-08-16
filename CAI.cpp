@@ -67,8 +67,8 @@ int CAI::getDifficultyLevel() const{
 */
 int CAI::generateRandomNumber(int lowerLimit, int upperLimit) const{
 
-    // Solutions presented in text book did not work for me.
-    // Regardless how i tried, found this solution here
+    // Solutions presented in text book did not work for me regardless how i tried
+    // found this solution here
     // https://stackoverflow.com/questions/16153589/generating-a-uniform-random-integer-in-c
     std::random_device random_device;
     std::mt19937 generator(random_device());
